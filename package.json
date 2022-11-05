@@ -1,0 +1,15 @@
+{
+  "name": "rest-query",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "compile": "nearleyc grammar.ne >grammar.js"
+  },
+  "author": "josh@slashdev.ca",
+  "license": "MIT",
+  "dependencies": {
+    "nearley": "^2.20.1",
+    "underscore": "^1.13.6"
+  }
+}
