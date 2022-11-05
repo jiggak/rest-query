@@ -36,20 +36,31 @@ function output(query, data) {
    console.table(data);
 }
 
+function urlQuery(where) {
+   return where.map(c => `${encodeURIComponent(c.name)}=${encodeURIComponent(c.value)}`)
+      .join('&');
+}
+
 function exec(sql, params) {
    parser.feed(sql);
    const query = parser.results[0];
 
    if (query.from) {
-      fetch(params[query.from.name])
+      let url = params[query.from.name];
+
+      if (query.where) {
+         url = `${url}?${urlQuery(query.where)}`;
+      }
+
+      fetch(url)
          .then(response => response.json())
          .then(data => output(query, data));
    }
 }
 
 exec(
-   'select data.breed, data.coat, data.pattern from breeds',
+   `select data.breed, data.coat, data.pattern
+   from breeds
+   where limit = 10 and page = 2`,
    {breeds: 'https://catfact.ninja/breeds'}
 );
-
-//select(null, ['data.breed', 'data.country']);
