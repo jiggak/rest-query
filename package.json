@@ -1,15 +1,21 @@
 {
   "name": "rest-query",
   "version": "1.0.0",
-  "description": "",
-  "main": "main.js",
+  "description": "SQL-like language for quering REST apis",
+  "main": "./dist/rest-query.js",
   "scripts": {
-    "compile": "nearleyc grammar.ne >grammar.js"
+    "compile": "nearleyc lib/grammar.ne >lib/grammar.js",
+    "build": "nearleyc src/grammar.ne >src/grammar.ts && tsc"
   },
   "author": "josh@slashdev.ca",
   "license": "MIT",
   "dependencies": {
     "nearley": "^2.20.1",
     "underscore": "^1.13.6"
+  },
+  "devDependencies": {
+    "@types/nearley": "^2.11.2",
+    "@types/underscore": "^1.11.4",
+    "typescript": "^4.8.4"
   }
 }

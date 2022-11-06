@@ -1,3 +1,5 @@
+@preprocessor typescript
+
 #@builtin "whitespace.ne"
 @builtin "number.ne"
 @builtin "string.ne"
@@ -11,7 +13,7 @@ from -> "from" __ name {% d => ({from: d[2]}) %}
          let where = [d[6]];
          if (d.length > 7) {
             where = where.concat(
-               d[7].map(x => x[3])
+               d[7].map((x:any) => x[3])
             );
          }
 
