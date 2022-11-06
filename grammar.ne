@@ -31,6 +31,8 @@ value -> int {% id %}
    | "null" {% d => null %}
 
 select -> "select" __ nameList {% d => ({select: d[2]}) %}
+   | "select" __ "*" {% d => ({select: {all: true}}) %}
+   | "select" __ name ".*" {% d => ({select: {all:true, ...d[2]}}) %}
 
 name -> _name {% d => ({name: d[0]}) %}
 _name -> [a-zA-Z_] {% id %}

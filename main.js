@@ -4,10 +4,18 @@ const grammar = require('./grammar.js');
 
 const parser = new Parser(Grammar.fromCompiled(grammar));
 
-function select(data, fields) {
+function select(data, select) {
+   if (select.all) {
+      if (select.name) {
+         return data[select.name];
+      }
+
+      return data;
+   }
+
    let output = [];
 
-   const groupedFields = _.groupBy(fields, f => f.split('.')[0]);
+   const groupedFields = _.groupBy(select.names, f => f.split('.')[0]);
 
    if (_.isArray(data)) {
       for (const row of data) {
@@ -30,7 +38,7 @@ function select(data, fields) {
 
 function output(query, data) {
    if (query.select) {
-      data = select(data, query.select.names);
+      data = select(data, query.select);
    }
 
    console.table(data);
@@ -59,7 +67,7 @@ function exec(sql, params) {
 }
 
 exec(
-   `select data.breed, data.coat, data.pattern
+   `select data.*
    from breeds
    where limit = 10 and page = 2`,
    {breeds: 'https://catfact.ninja/breeds'}
