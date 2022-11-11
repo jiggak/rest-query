@@ -2,8 +2,6 @@ import _ from 'underscore';
 import { Parser, Grammar } from 'nearley';
 import grammar from './grammar';
 
-const parser = new Parser(Grammar.fromCompiled(grammar));
-
 interface WhereExpr {
    name:string,
    value:number|string
@@ -74,6 +72,8 @@ function urlQuery(where:WhereExpr[]) {
 }
 
 export function execQuery(sql:string, params:{[key: string]:string}):Promise<any> {
+   const parser = new Parser(Grammar.fromCompiled(grammar));
+
    parser.feed(sql);
    const query = parser.results[0];
 
