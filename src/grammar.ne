@@ -7,8 +7,8 @@
 statement -> from {% id %}
    | select __ from {% d => ({...d[0], ...d[2]}) %}
 
-from -> "from" __ name {% d => ({from: d[2]}) %}
-   | "from" __ name __ "where" __ expr (__ "and" __ expr):* {%
+from -> "from" __ url {% d => ({from: d[2]}) %}
+   | "from" __ url __ "where" __ expr (__ "and" __ expr):* {%
       function (d) {
          let where = [d[6]];
          if (d.length > 7) {
@@ -42,6 +42,9 @@ _name -> [a-zA-Z_] {% id %}
 
 nameList -> name {% d => ({names: [d[0].name]}) %}
    | nameList _ "," _ name {% d => ({names: d[0].names.concat([d[4].name])}) %}
+
+_proto -> "http" | "https"
+url -> _proto "://" .:+ {% d => d[0] + d[1] + d[2].join('') %}
 
 # Whitespace
 _ -> null | _ [\s] {% () => {} %}                   # optional

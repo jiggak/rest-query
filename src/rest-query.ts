@@ -16,13 +16,9 @@ interface SelectAll {
    name?:string
 }
 
-interface From {
-   name:string
-}
-
 interface Query {
    select?:Select|SelectAll,
-   from:From,
+   from:string,
    where?:WhereExpr[]
 }
 
@@ -71,14 +67,14 @@ function urlQuery(where:WhereExpr[]) {
       .join('&');
 }
 
-export function execQuery(sql:string, params:{[key: string]:string}):Promise<any> {
+export function execQuery(sql:string):Promise<any> {
    const parser = new Parser(Grammar.fromCompiled(grammar));
 
    parser.feed(sql);
-   const query = parser.results[0];
+   const query = parser.results[0] as Query;
 
    if (query.from) {
-      let url = params[query.from.name];
+      let url = query.from;
 
       if (query.where) {
          url = `${url}?${urlQuery(query.where)}`;

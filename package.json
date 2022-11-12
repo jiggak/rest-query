@@ -4,11 +4,11 @@
   "description": "SQL-like language for quering REST apis",
   "main": "./dist/rest-query.js",
   "scripts": {
-    "compile": "nearleyc lib/grammar.ne >lib/grammar.js",
-    "build": "nearleyc src/grammar.ne >src/grammar.ts && tsc"
+    "build": "nearleyc src/grammar.ne >src/grammar.ts && tsc",
+    "install": "npm run build"
   },
   "author": "josh@slashdev.ca",
-  "license": "MIT",
+  "license": "Beerware",
   "dependencies": {
     "nearley": "^2.20.1",
     "underscore": "^1.13.6"
